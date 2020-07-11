@@ -1,0 +1,185 @@
+{% extends 'base1.html' %}
+{% block head %}
+* {
+  box-sizing: border-box;
+  
+}
+
+input[type=text], select, textarea {
+  width: 50%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 70%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 80%;
+    margin-top: 0;
+  }
+}
+{% endblock %}
+
+{% block body %}
+
+<h2 style="text-align: center;color:gold;"><b> Delete Patient </b></h2>
+<div class="container" style="margin-left: 370px; text-align: center;width:50%;padding-left: 100px;">
+  
+  {% if pform is defined %}
+  <form method="POST", action="">
+    {{pform.hidden_tag()}}
+  <div class="row">
+    <div class="col-25">
+      <label for="SSN ID"><b>{{pform.patientid.label}}</b></label>
+    </div>
+    <div class="col-75" >
+      {{pform.patientid}}
+      {% for error in pform.patientid.errors %}
+      <span class="text-danger">{{ error }}</span><br />
+      {% endfor %}    </div>
+    <div class="col-150">
+      {{pform.submit}}
+    </div>
+  </div>
+  </form>
+  {% endif %}
+
+  {% if form is defined %}
+  <form method="POST", action="">
+    {{form.hidden_tag()}}
+  <div class="row">
+    <div class="col-25">
+      <label for="name"><b>{{form.patientid.label}}</b></label>
+    </div>
+    <div class="col-75">
+      {{form.patientid}}
+      {% for error in form.patientid.errors %}
+      <span class="text-danger">{{ error }}</span><br />
+      {% endfor %}
+    </div>
+  </div>
+  <div class="row">
+    <a href="{{url_for('delete_patient')}}">Search New Patient</a>
+  </div>
+  <div class="row">
+    <div class="col-25">
+      <label for="name"><b>{{form.patient_name.label}}</b></label>
+    </div>
+    <div class="col-75">
+      {{form.patient_name}}
+      {% for error in form.patient_name.errors %}
+      <span class="text-danger">{{ error }}</span><br />
+      {% endfor %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-25">
+      <label for="age"><b>{{form.patient_age.label}}</b></label>
+    </div>
+    <div class="col-75">
+      {{form.patient_age}}
+      {% for error in form.patient_age.errors %}
+      <span class="text-danger">{{ error }}</span><br />
+      {% endfor %}    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="bed"><b>{{form.bed_type.label}}</b></label>
+    </div>
+    <div class="col-75">
+      {{form.bed_type}}
+      {% for error in form.bed_type.errors %}
+      <span class="text-danger">{{ error }}</span><br />
+      {% endfor %}
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-25">
+      <label for="address"><b>{{form.address.label}}</b></label>
+    </div>
+    <div class="col-75">
+      {{form.address}}
+      {% for error in form.address.errors %}
+      <span class="text-danger">{{ error }}</span><br />
+      {% endfor %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-25">
+      <label for="state"><b>{{form.state.label}}</b></label>
+    </div>
+    <div class="col-75">
+      {{form.state}}
+      {% for error in form.state.errors %}
+      <span class="text-danger">{{ error }}</span><br />
+      {% endfor %}</div>
+  </div>
+  <div class="row">
+    <div class="col-25">
+      <label for="city"><b>{{form.city.label}}</b></label>
+    </div>
+    <div class="col-75">
+      {{form.city}}
+      {% for error in form.city.errors %}
+      <span class="text-danger">{{ error }}</span><br />
+      {% endfor %}</div>
+  </div>
+
+
+  <div class="row" style="margin-left: 250px;margin-right: 250px;">
+    <div class="col-25">
+      {{form.submit}}
+    </div>
+    
+  </div>
+</form>
+{% endif %}
+</div>
+{% endblock %}

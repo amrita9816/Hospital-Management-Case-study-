@@ -1,0 +1,270 @@
+{% extends 'base1.html' %}
+{% block head %}
+* {
+box-sizing: border-box;
+
+}
+
+input[type=text], select, textarea {
+width: 50%;
+padding: 12px;
+border: 1px solid #ccc;
+border-radius: 4px;
+resize: vertical;
+}
+
+label {
+padding: 12px 12px 12px 0;
+display: inline-block;
+}
+
+input[type=submit] {
+background-color: #4CAF50;
+color: white;
+padding: 12px 20px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+float: right;
+}
+
+input[type=submit]:hover {
+background-color: #45a049;
+}
+
+.container {
+border-radius: 5px;
+background-color: #f2f2f2;
+padding: 10px;
+}
+
+.col-25 {
+float: left;
+width: 20%;
+margin-top: 6px;
+}
+
+.col-75 {
+float: left;
+width: 70%;
+margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+content: "";
+display: table;
+clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead
+of next to each other */
+@media screen and (max-width: 600px) {
+.col-25, .col-75, input[type=submit] {
+width: 80%;
+margin-top: 0;
+}
+}
+{% endblock %}
+
+{% block body %}
+
+<h2 style="text-align: center;color:gold;"><b>Generate Bill</b></h2>
+<div class="container" style="margin-left: 370px; text-align: center;width:50%;padding-left: 100px;">
+  {% if pform is defined %}
+  <form method="post" action=''>
+    {{pform.hidden_tag()}}
+    <div class="row">
+      <div class="col-25">
+        <label for="SSN ID"><b>Patient ID</b></label>
+      </div>
+      <div class="col-75">
+        {{pform.patientid}}
+        {% for error in pform.patientid.errors %}
+        <span class="text-danger">{{ error }}</span><br />
+        {% endfor %}
+      </div>
+      <div class="col-150">
+        {{pform.submit}}
+      </div>
+    </div>
+  </form>
+  {% endif %}
+
+  {% if patientData is defined %}
+  <form method="post" ,action=''>
+    {{form.hidden_tag()}}
+    <div class="row">
+      <div class="col-25">
+        <label for="name"><b>Patient Name</b></label>
+      </div>
+      <div class="col-75">
+        <input style="width:240px;height: 30px;" type="text" id="name" name="name" value="{{patientData[2]}}" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="age"><b>Patient Age</b></label>
+      </div>
+      <div class="col-75">
+        <input style="width:240px" id="age" name="age" value="{{patientData[3]}}" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="date"><b>Date of admission</b></label>
+      </div>
+      <div class="col-75">
+        <input style="width:240px" id="adm_date" name="adm_date" value="{{patientData[5]}}" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="date"><b>Date of discharge</b></label>
+      </div>
+      <div class="col-75">
+        <input style="width:240px" id="discharge_date" name="discharge_date" value="{{todaysDate}}"readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="date"><b>Type Of Bed</b></label>
+      </div>
+      <div class="col-75">
+        <input style="width:240px" id="bedtype" name="bedtype" value="{{patientData[6]}}" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="date"><b>No of Days</b></label>
+      </div>
+      <div class="col-75">
+        <input style="width:240px" id="noofdays" name="noofdays" value="{{totalDays}}" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-100" style="color: crimson;">
+        <h4>Room Bill</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-25">
+        <label for="date"><b>Total Cost</b></label>
+      </div>
+      <div class="col-75">
+        <input style="width:240px" id="bed_cost" name="bed_cost" value="{{totalRoomCost}}" readonly>
+
+      </div>
+      <table class="table table-bordered table-secondary" style="width:90%;margin-left: -10px; font-size: small;">
+        <thead>
+          <tr>
+            <th scope="col">Room Type</th>
+            <th scope="col">No Of Days</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{patientData[6]}}</th>
+            <td>{{totalDays}}</td>
+            <td>{{roomPrice}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="row">
+      <div class="col-100" style="color: crimson;">
+        <h4>Medicine Bill</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-25">
+        <label for="date"><b>Total Cost</b></label>
+      </div>
+      <div class="col-75">
+        <input style="width:240px" id="med_cost" name="med_cost" value="{{totalMed}}" readonly>
+
+      </div>
+      <table class="table table-bordered table-secondary" style="width:90%;margin-left: -10px; font-size: small;">
+        <thead>
+          <tr>
+            <th scope="col">Medicine Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for med in med_detail %}   
+          <tr>
+            
+            <th scope="row">{{med[1]}}</th>
+            <td>{{med[0]}}</td>
+            <td>{{med[2]}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+
+
+
+    <div class="row">
+      <div class="col-100" style="color: crimson;">
+        <h4>Diagnostics Bill</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-25">
+        <label for="date"><b>Total Cost</b></label>
+      </div>
+      <div class="col-75">
+        <input style="width:240px" id="diag_cost" name="diag_cost" value="{{totalDiag}}" readonly>
+
+      </div>
+      <table class="table table-bordered table-secondary" style="width:90%;margin-left: -10px; font-size: small;">
+        <thead>
+          <tr>
+            <th scope="col">Diagnostic Name</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for diag in diag_detail %}   
+          <tr>
+            <th scope="row">{{diag[1]}}</th>
+            <td>{{diag[0]}}</td>
+          </tr>
+          {% endfor %} 
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <hr style="width: 100%; margin-left: -40px; background-color: darkblue;">
+    </div>
+    <div class="row">
+      <div class="col-60">
+        <h3><b>Grand Total</b></h3>
+      </div>
+      <div class="col-75">
+        <input style="width:240px; font-size: large;" id="grand_total" name="grand_total" value="{{grandTotal}}"        readonly>
+
+      </div>
+    </div>
+
+    <div class="row" style="margin-left: 20px;margin-right: 250px;">
+      <div class="col-25">
+       {{form.submit}}
+      </div>
+    </div>
+  </form>
+  {% endif %}
+</div>
+<br>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='base1.css')}}">
+</head>
+<body class="bg-nav">
+    <br>
+    <br>
+    <h2 style="text-align: center;color:gold;"><b>ENTER  PATIENT'S  ID  TO  ISSUE  MEDICINES</b></h2>
+    <BR>
+    <br>
+    <br>
+
+    <div class="container" style="margin-left: 270px; text-align: center;width:50%;padding-left: 100px;">
+    <form method="post" action='/view_medicines'>
+        <div class="row">
+            <div class="col-25">
+                <label for="ID" ><b>PATIENT'S ID</b></label>
+            </div>
+            <br>
+            <div class="col-75" >
+             <input style="width:240px;"  type="number" id="ID" name="ID" placeholder="ID" required>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="col-25">
+            <input type="submit" value="Submit" >
+        </div>
+    </form>
+</body>
